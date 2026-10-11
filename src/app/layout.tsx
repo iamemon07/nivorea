@@ -1,17 +1,29 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Great_Vibes, Jost } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+// Fonts are self-hosted (latin subset from Google Fonts) so builds don't depend on fetching from Google.
+const cormorant = localFont({
+  src: [
+    { path: "./fonts/CormorantGaramond-Variable.woff2", weight: "400 600", style: "normal" },
+    { path: "./fonts/CormorantGaramond-Italic-Variable.woff2", weight: "400 600", style: "italic" },
+  ],
   variable: "--font-cormorant",
   display: "swap",
 });
-const jost = Jost({ subsets: ["latin"], weight: ["300", "400", "500", "600"], variable: "--font-jost", display: "swap" });
-const script = Great_Vibes({ subsets: ["latin"], weight: "400", variable: "--font-script", display: "swap" });
+const jost = localFont({
+  src: "./fonts/Jost-Variable.woff2",
+  weight: "300 600",
+  variable: "--font-jost",
+  display: "swap",
+});
+const script = localFont({
+  src: "./fonts/GreatVibes-Regular.woff2",
+  weight: "400",
+  variable: "--font-script",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
