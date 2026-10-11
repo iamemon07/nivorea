@@ -162,7 +162,9 @@ export async function createOrder(input: CheckoutInput) {
     });
 
     const dto = serialize<OrderDTO>(order.toObject());
-    void notifyNewOrder(dto, settings);
+    // Awaited on purpose: serverless functions (Netlify) freeze once the response is sent,
+    // so fire-and-forget emails never finish. sendMail never throws, so this can't fail checkout.
+    await notifyNewOrder(dto, settings);
     return dto;
   } catch (err) {
     await applyStock(reserved, 1).catch((e) => console.error("[order] stock rollback failed", e));
